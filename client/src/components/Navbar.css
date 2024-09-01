@@ -1,0 +1,107 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  height: 100%;
+  width: 100%;
+}
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #333;
+  padding: 0 20px;
+  height: 60px;
+  width: 100%;
+  color: white;
+  position: fixed; /* Fix the navbar at the top */
+  top: 0;
+  left: 0;
+  z-index: 10; /* Ensure the navbar stays on top */
+}
+
+.logo {
+  font-size: 1.8rem;
+  font-weight: bold;
+}
+
+.nav-links {
+  display: flex;
+  list-style: none;
+}
+
+.nav-links li {
+  margin: 0 20px;
+}
+
+.nav-links a {
+  text-decoration: none;
+  color: white;
+  font-size: 1.1rem;
+  transition: color 0.3s ease;
+}
+
+.nav-links a:hover {
+  color: #ddd; /* Slight color change on hover */
+}
+
+.mobile-menu-icon {
+  display: none;
+  font-size: 2rem;
+  color: white;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.nav-links-mobile {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .mobile-menu-icon {
+    display: block;
+  }
+
+  .nav-links {
+    display: none;
+  }
+
+  .nav-links-mobile {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    top: 60px;
+    right: 0; /* Align dropdown to the right */
+    width: 200px; /* Set width for the dropdown */
+    background-color: #333;
+    border-top: 1px solid #444;
+    z-index: 9;
+  }
+
+  .nav-links-mobile li {
+    text-align: left; /* Align text to the left */
+    padding: 15px 20px; /* Add padding for better spacing */
+    width: 100%;
+  }
+
+  .nav-links-mobile a {
+    font-size: 1.2rem;
+    padding: 10px 0;
+    width: 100%;
+    display: block;
+    transition: background-color 0.3s ease;
+  }
+
+  .nav-links-mobile a:hover {
+    background-color: #444; /* Background change on hover */
+  }
+
+  .nav-links-mobile li:hover {
+    background-color: #555; /* Add hover effect on the list item */
+  }
+}

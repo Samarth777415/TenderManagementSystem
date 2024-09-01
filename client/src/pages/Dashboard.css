@@ -1,0 +1,173 @@
+/* Universal reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Ensure full height for the HTML and body */
+html, body {
+  height: 100%;
+  width: 100%;
+  margin-top: 30px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f4f4f9;
+}
+
+/* Style for the Dashboard container */
+.dashboard-container {
+  display: flex;
+  height: 100vh;
+}
+
+/* Style for the sidebar */
+.sidebar {
+  width: 200px;
+  margin-top: 60px; /* Adjust margin to match the height of the fixed navbar */
+  background-color: #2c3e50;
+  color: #ecf0f1;
+  padding: 20px;
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+  height: calc(100% - 50px); /* Adjust height to account for the navbar */
+  position: fixed; /* Make the sidebar fixed */
+  left: 0;
+  overflow-y: auto; /* Enable scrolling if the sidebar content overflows */
+}
+
+/* Style for the sidebar header */
+.sidebar h2 {
+  margin: 0;
+  font-size: 1.6em;
+  color: #ecf0f1;
+}
+
+/* Style for the tender stages list */
+.tender-stages {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.tender-stages li {
+  padding: 15px 0;
+  border-bottom: 1px solid #34495e;
+  font-size: 1.1em;
+}
+
+.tender-stages li:last-child {
+  border-bottom: none;
+}
+
+.tender-stages .badge {
+  background-color: #e67e22;
+  color: #fff;
+  border-radius: 12px;
+  padding: 5px 10px;
+  font-size: 0.9em;
+  margin-left: 10px;
+}
+
+/* Style for the main content area */
+.main-content {
+  margin-left: 200px; /* Adjust margin to fit the fixed sidebar */
+  padding: 20px;
+  width: calc(100% - 200px); /* Adjust width to account for sidebar */
+  background-color: #ffffff;
+  overflow-y: auto; /* Enable scrolling for the main content */
+  margin-top: 60px; /* Adjust margin to match the height of the fixed navbar */
+}
+
+/* Style for the top bar */
+.top-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 10px;
+  margin-bottom: 20px;
+}
+
+.top-bar h3 {
+  margin: 0;
+  font-size: 1.4em;
+  color: #2c3e50;
+}
+
+.top-bar-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.filter-btn,
+.sort-btn {
+  background-color: #3498db;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 8px 12px;
+  cursor: pointer;
+  font-size: 0.9em;
+}
+
+.filter-btn:hover,
+.sort-btn:hover {
+  background-color: #2980b9;
+}
+
+/* Style for the tender table */
+.tender-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+  font-size: 0.9em;
+}
+
+.tender-table th,
+.tender-table td {
+  padding: 12px;
+  border: 1px solid #ddd;
+  text-align: left;
+}
+
+.tender-table th {
+  background-color: #2c3e50;
+  color: #fff;
+}
+
+.tender-table td {
+  background-color: #fff;
+}
+
+.tender-table .status {
+  display: inline-block;
+  padding: 4px 8px;
+  border-radius: 4px;
+  color: #fff;
+  text-transform: capitalize;
+}
+
+.tender-table .status.open {
+  background-color: #27ae60;
+}
+
+.tender-table .status.submitted {
+  background-color: #f39c12;
+}
+
+.tender-table .status.awarded {
+  background-color: #e74c3c;
+}
+
+.apply-button {
+  background-color: #3498db;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 6px 10px;
+  cursor: pointer;
+  font-size: 0.9em;
+}
+
+.apply-button:hover {
+  background-color: #2980b9;
+}

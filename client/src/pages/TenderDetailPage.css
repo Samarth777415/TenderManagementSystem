@@ -1,0 +1,53 @@
+/* TenderDetailPage.css */
+
+.tender-detail-page {
+    padding: 20px;
+    max-width: 800px;
+    margin: 0 auto;
+    font-family: Arial, sans-serif;
+  }
+  
+  .tender-detail-page h2 {
+    font-size: 2rem;
+    margin-bottom: 20px;
+    color: #333;
+  }
+  
+  .tender-detail-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+  }
+  
+  .tender-detail-table th,
+  .tender-detail-table td {
+    border: 1px solid #ddd;
+    padding: 12px;
+    text-align: left;
+  }
+  
+  .tender-detail-table th {
+    background-color: #f4f4f4;
+    color: #333;
+    font-weight: bold;
+  }
+  
+  .tender-detail-table td {
+    background-color: #fff;
+    color: #555;
+  }
+  
+  .tender-detail-table tr:nth-child(even) {
+    background-color: #f9f9f9;
+  }
+  
+  .tender-detail-table tr:hover {
+    background-color: #f1f1f1;
+  }
+  
+  @media (max-width: 768px) {
+    .tender-detail-table {
+      font-size: 0.9rem;
+    }
+  }
+  
