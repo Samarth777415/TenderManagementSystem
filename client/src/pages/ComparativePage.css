@@ -1,0 +1,25 @@
+.comparative-container {
+    padding: 20px;
+    text-align: center;
+  }
+  
+  .comparative-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+  }
+  
+  .comparative-table th, .comparative-table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+  }
+  
+  .comparative-table th {
+    background-color: #f4f4f4;
+    color: #333;
+  }
+  
+  .comparative-table td {
+    text-align: left;
+  }
+  

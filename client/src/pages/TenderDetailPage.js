@@ -1,4 +1,3 @@
-// TenderDetailPage.js
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
@@ -7,48 +6,57 @@ import './TenderDetailPage.css';
 const TenderDetailPage = () => {
   const { tenderId } = useParams();
   const [tenderDetails, setTenderDetails] = useState(null);
-  const [price, setPrice] = useState("");
+  const [price, setPrice] = useState({});
+  const [tenderTableData, setTenderTableData] = useState([]);
+  const [userId, setUserId] = useState('');
+
+  useEffect(() => {
+    const fetchUserId = async () => {
+      try {
+        const token = localStorage.getItem('token');
+        if (!token) {
+          console.error('No token found');
+          return;
+        }
+  
+        const response = await axios.get('http://localhost:5000/api/auth/me', {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+  
+        const { _id } = response.data;
+        setUserId(_id);
+      } catch (error) {
+        console.error('Error fetching user ID:', error);
+      }
+    };
+  
+    fetchUserId();
+  }, []);
 
   useEffect(() => {
     fetchTenderDetails();
-    
   }, [tenderId]);
 
   const fetchTenderDetails = async () => {
     try {
       const response = await axios.get(`http://localhost:5000/api/tenders/${tenderId}/details`);
-      console.log('Tender details response:', response.data); // Log the response
       setTenderDetails(response.data);
+      const processedData = processTenderTableData(response.data.tenderTable);
+      setTenderTableData(processedData);
     } catch (error) {
       console.error('Error fetching tender details:', error);
     }
   };
 
-  const handlePriceChange = (e) => {
-    setPrice(e.target.value);
-  };
-
-  const handleSubmitPrice = async () => {
-    try {
-      await axios.put(`http://localhost:5000/api/tenders/${tenderId}/details`, {
-        price,
-      });
-      alert('Price updated successfully!');
-    } catch (error) {
-      console.error('Error updating price:', error);
-      alert('Failed to update price. Please try again.');
-    }
-  };
-
-  // Process the tenderTable data
-  const processTenderTableData = () => {
-    if (!tenderDetails || !tenderDetails.tenderTable.length) {
+  const processTenderTableData = (tenderTable) => {
+    if (!tenderTable || !tenderTable.length) {
       return [];
     }
 
-    // Flatten the nested arrays and group by material
     const groupedData = {};
-    tenderDetails.tenderTable.flat().forEach((row) => {
+    tenderTable.flat().forEach((row) => {
       const { columnName, columnValue } = row;
       if (columnName.includes('Material')) {
         groupedData[columnValue] = {};
@@ -68,7 +76,49 @@ const TenderDetailPage = () => {
     }));
   };
 
-  const tenderTableData = processTenderTableData();
+  const handlePriceChange = (e, material) => {
+    setPrice((prevPrices) => ({
+      ...prevPrices,
+      [material]: e.target.value,
+    }));
+  };
+
+  const handleSubmitPrice = async () => {
+    try {
+      const totalSum = Object.values(price).reduce((sum, priceValue) => sum + parseFloat(priceValue || 0), 0);
+
+      const quotationData = {
+        createrId: userId, 
+        tenderId: tenderId,
+        tenderTable: tenderTableData.map((item) => ({
+          material: item.material,
+          quantity: item.quantity,
+          price: price[item.material] || item.price,
+        })),
+        status: 'Submitted',
+        totalSum,
+      };
+
+      console.log('Submitting Quotation:', quotationData);
+
+      const response = await axios.post('http://localhost:5000/api/quotations/create', quotationData);
+      alert('Quotation created successfully!');
+      console.log('Response from server:', response.data);
+
+      // After successfully submitting the quotation, update the tender status to "Submitted"
+      // await axios.patch(`http://localhost:5000/api/quotations/${tenderId}/status`, { status: 'Submitted' });
+      
+      // Update the tender details state to reflect the status change
+      // setTenderDetails(prevDetails => ({
+      //   ...prevDetails,
+      //   status: 'Submitted',
+      // }));
+      
+    } catch (error) {
+      console.error('Error creating quotation:', error.response?.data || error.message);
+      alert(error.response?.data?.message || 'Failed to create quotation. Please check the console for more information.');
+    }
+  };
 
   return (
     <div className="tender-detail-page">
@@ -120,8 +170,8 @@ const TenderDetailPage = () => {
                     <td>
                       <input
                         type="number"
-                        value={price}
-                        onChange={handlePriceChange}
+                        value={price[item.material] || item.price || ""}
+                        onChange={(e) => handlePriceChange(e, item.material)}
                         placeholder="Enter price"
                       />
                     </td>
@@ -135,8 +185,8 @@ const TenderDetailPage = () => {
             </tbody>
           </table>
 
-          <button className="submit-price-btn" onClick={handleSubmitPrice}>
-            Submit Price
+          <button className="button" onClick={handleSubmitPrice}>
+            Submit Quotation
           </button>
         </div>
       ) : (

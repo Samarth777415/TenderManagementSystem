@@ -1,15 +1,17 @@
-import React, { useState } from "react";
+import React, { useEffect,useState } from "react";
 import axios from "axios";
 import { useParams, useNavigate } from "react-router-dom";
 import "./TenderDetails.css";
 
 const TenderDetails = () => {
-  const [columns, setColumns] = useState(["Material", "Quantity", "Price"]);
-  const [rows, setRows] = useState([["", "", ""]]);
+  const [columns, setColumns] = useState(["Material", "Quantity"]);
+  const [rows, setRows] = useState([["", ""]]);
   const [loading, setLoading] = useState(false);
-  const { id } = useParams(); // Getting tender ID from route parameters
+  const { id } = useParams(); // Get the tender ID from the URL
   const navigate = useNavigate();
-
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
   // Function to handle adding a new row
   const addRow = () => {
     setRows([...rows, Array(columns.length).fill("")]);
@@ -118,7 +120,7 @@ const TenderDetails = () => {
                   onChange={(e) => handleHeaderChange(colIndex, e.target.value)}
                 />
                 <button onClick={() => removeColumn(colIndex)} disabled={columns.length <= 1 || loading}>
-                  Remove Column
+                  X
                 </button>
               </th>
             ))}

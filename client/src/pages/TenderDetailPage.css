@@ -1,10 +1,12 @@
 /* TenderDetailPage.css */
 
 .tender-detail-page {
-    padding: 20px;
+   
     max-width: 800px;
+    padding: 55px;
     margin: 0 auto;
     font-family: Arial, sans-serif;
+
   }
   
   .tender-detail-page h2 {
@@ -35,7 +37,13 @@
   .tender-detail-table td {
     background-color: #fff;
     color: #555;
+    padding: 8px; /* Ensures proper spacing inside cells */
+    vertical-align: top; /* Aligns content to the top */
+    white-space: normal; /* Ensures text wraps to a new line if it's too long */
+    word-break: break-word; /* Breaks long words to prevent overflow */
+    border: 1px solid #ddd; /* Optional: Adds a border for better visual separation */
   }
+
   
   .tender-detail-table tr:nth-child(even) {
     background-color: #f9f9f9;

@@ -24,6 +24,16 @@ const Signup = () => {
     const gstRegex = /^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[A-Z0-9]{1}[Z]{1}[A-Z0-9]{1}$/;
     return gstRegex.test(gst);
   };
+  const checkGSTUniqueness = async (gstNumber) => {
+    try {
+      const response = await axios.post('http://localhost:5000/api/auth/check-gst', { gstNumber });
+      console.log('GST check response:', response.data); // Add logging here
+      return response.data.isUnique;
+    } catch (error) {
+      console.error('Error checking GST uniqueness:', error);
+      return false;
+    }
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -37,7 +47,11 @@ const Signup = () => {
       setError('Invalid GST Number format.');
       return;
     }
-
+    const isUnique = await checkGSTUniqueness(formData.gstNumber);
+    if (!isUnique) {
+      setError('GST Number already exists. Please use a different one.');
+      return;
+    }
     try {
       const response = await axios.post('http://localhost:5000/api/auth/register', formData);
       console.log('Signup successful:', response.data);
@@ -48,6 +62,8 @@ const Signup = () => {
       setError(error.response?.data?.message || 'Signup failed. Please try again.');
     }
   };
+  
+
 
   return (
     <div className="signup-container">

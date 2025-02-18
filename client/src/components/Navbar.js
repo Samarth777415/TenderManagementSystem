@@ -1,57 +1,75 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { FileText, ChevronDown, User } from 'lucide-react';
 import { useAuth } from './AuthContext';
 import './Navbar.css';
 
 const Navbar = () => {
-  const [isMobile, setIsMobile] = useState(false);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [isMobileView, setIsMobileView] = useState(false);
   const { isAuthenticated, logout } = useAuth();
   const navigate = useNavigate();
 
-  const handleAuthToggle = () => {
-    if (isAuthenticated) {
-      logout();
-      navigate('/');
-    } else {
-      navigate('/login');
-    }
+  useEffect(() => {
+    const checkMobileView = () => {
+      setIsMobileView(true);
+    };
+
+    checkMobileView();
+    window.addEventListener('resize', checkMobileView);
+    return () => window.removeEventListener('resize', checkMobileView);
+  }, []);
+
+  const handleLogout = () => {
+    logout();
+    navigate('/');
+    setIsDropdownOpen(false);
   };
 
   return (
     <nav className="navbar">
-      <h3 className="logo">TenderSystem</h3>
-      <ul className={isMobile ? "nav-links-mobile" : "nav-links"} onClick={() => setIsMobile(false)}>
-        <Link to="/" className="home">
-          <li>Home</li>
-        </Link>
-        <Link to="/about" className="about">
-          <li>About</li>
-        </Link>
-        <Link to="/contact" className="contact">
-          <li>Contact</li>
-        </Link>
-        {!isAuthenticated ? (
-          <Link to="/login" className="login">
-            <li>Login</li>
-          </Link>
+      <div className="nav-brand">
+        <FileText size={24} />
+        <Link to="/" className="logo">TenderVault</Link>
+      </div>
+
+      <div className="nav-center">
+        <ul className="nav-links">
+          <li><Link to="/about">About</Link></li>
+          <li><Link to="/prising">Pricing</Link></li>
+          <li><Link to="/contact">Contact</Link></li>
+          <li><Link to="/new-tender">Create Tender</Link></li>
+          <li><Link to="/dashboard">Dashboard</Link></li>
+        </ul>
+      </div>
+
+      <div className="nav-auth">
+        {isAuthenticated ? (
+          <div className="dropdown-container">
+            <button 
+              className="dropdown-trigger"
+              onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+            >
+              <User className="mr-2" size={20} />
+              Profile
+              <ChevronDown className="ml-2" size={16} />
+            </button>
+            {(isDropdownOpen || !isMobileView) && (
+              <div className={`dropdown-menu ${isMobileView ? 'mobile-dropdown' : ''}`}>
+                
+                <Link to="/personal-tenders">Personal Tenders</Link>
+                
+                <button className="dropdown-trigger" onClick={handleLogout}>Logout</button>
+              </div>
+            )}
+          </div>
         ) : (
           <>
-            <Link to="/new-tender" className="create-tender">
-              <li>Create Tender</li>
-            </Link>
-            <Link to="/dashboard" className="dashboard">
-              <li>Dashboard</li>
-            </Link>
-            <li className="logout" onClick={handleAuthToggle}>
-              Logout
-            </li>
+            <Link to="/login" className="login-btn">Log in</Link>
+            <Link to="/signup" className="signup-btn">Sign up</Link>
           </>
         )}
-        
-      </ul>
-      <button className="mobile-menu-icon" onClick={() => setIsMobile(!isMobile)}>
-        {isMobile ? <i className="fas fa-times"></i> : <i className="fas fa-bars"></i>}
-      </button>
+      </div>
     </nav>
   );
 };

@@ -1,60 +1,80 @@
-/* Style for the TenderForm container */
-.tender-form {
-  
-  max-width: 600px;
-  margin: 0 auto;
-  margin-top: 80px;
-  padding: 20px;
-  background-color: #f9f9f9;
-  border-radius: 8px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+body {
+  font-family: 'Arial', sans-serif;
+  background-color: #f7f8fa;
+  margin: 0;
+  padding: 50px;
 }
 
-/* Style for form headings */
-.tender-form h3 {
+.tender-form-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 50px;
+}
+
+.tender-form {
+  background-color: #ffffff;
+  padding: 30px;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 500px;
+}
+
+.tender-form h2 {
+  margin-top: 0;
+  margin-bottom: 20px;
+  color: #111827;
   text-align: center;
-  color: #333;
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.form-group {
   margin-bottom: 20px;
 }
 
-/* Style for form input fields */
-.tender-form input[type="text"],
-.tender-form textarea,
-.tender-form input[type="date"],
-.tender-form select {
+.form-group label {
+  display: block;
+  margin-bottom: 5px;
+  color: #333;
+  font-weight: bold;
+}
+
+.form-group input,
+.form-group textarea,
+.form-group select {
   width: 100%;
   padding: 10px;
-  margin: 10px 0;
   border: 1px solid #ddd;
   border-radius: 4px;
-  box-sizing: border-box; /* Ensure padding is included in the total width */
+  font-size: 16px;
 }
 
-/* Style for form textareas */
-.tender-form textarea {
-  height: 100px; /* Adjust height for better visibility */
-  resize: vertical; /* Allow vertical resizing only */
+.form-group textarea {
+  height: 100px;
+  resize: vertical;
 }
 
-/* Style for form labels */
-.tender-form label {
-  font-weight: bold;
-  margin-bottom: 5px;
-  display: block;
-}
-
-/* Style for the submit button */
-.tender-form button {
+button[type="submit"] {
+  width: 100%;
   padding: 10px;
-  background-color: #4CAF50;
+  background-color: #3b82f6;
   color: white;
   border: none;
   border-radius: 4px;
-  cursor: pointer;
   font-size: 16px;
-  margin-top: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
 }
 
-.tender-form button:hover {
-  background-color: #45a049;
+button[type="submit"]:hover {
+  background-color: #5a54e6;
+}
+
+@media (max-width: 480px) {
+  .tender-form {
+    padding: 20px;
+  }
 }
