@@ -1,14 +1,21 @@
 # TenderVault
 
-TenderVault is a comprehensive web application designed to streamline and automate the tender management process. Inspired by modern procurement platforms, TenderVault enables users to efficiently create, apply for, and manage tenders with transparency and ease.
+TenderVault is a comprehensive web application designed to streamline and digitize the tender management process, enhancing efficiency and transparency for users. The platform allows users to create, apply for, and manage tenders with ease.
 
 ## Features
 
-- **Real-time Tender Updates**: Stay informed about open tenders and application statuses.
-- **User Authentication**: Secure login system using Firebase Authentication.
-- **Dynamic Filtering & Sorting**: Easily find and manage tenders with filtering and sorting options.
-- **Quotation Management**: Users can submit and track their quotations.
+- **Secure Token-Based Authentication**: Ensures secure login and access control.
+- **Dynamic Dashboard**: Users can create, edit, and manage tenders efficiently.
+- **Vendor Quotations Management**: Vendors can submit quotations with validation to allow only one application per tender.
+- **Real-Time Updates**: Get notified about tender statuses and deadlines.
+- **Role-Based Access**: Tailored dashboards for admins, creators, and vendors.
 - **Responsive Design**: Optimized for seamless use across different devices.
+
+## Technologies Used
+
+- **MongoDB**: Efficient database management for tenders and user data.
+- **Express.js & Node.js**: Backend development for server-side logic and APIs.
+- **React**: Dynamic and responsive user interface.
 
 ## Getting Started
 
@@ -23,11 +30,11 @@ Follow these steps to set up and run TenderVault on your local machine.
 
 1. **Clone the repository:**
     ```bash
-    git clone https://github.com/Samarth777415/TenderVault.git
+    git clone https://github.com/Samarth777415/TenderManagementSystem.git
     ```
 2. **Navigate to the project directory:**
     ```bash
-    cd TenderVault
+    cd TenderManagementSystem
     ```
 3. **Install dependencies:**
     ```bash
@@ -37,6 +44,7 @@ Follow these steps to set up and run TenderVault on your local machine.
     Create a `.env` file in the root of your project and add necessary configurations:
     ```env
     REACT_APP_API_BASE_URL=your_api_base_url
+    REACT_APP_FIREBASE_API_KEY=your_firebase_api_key
     REACT_APP_AUTH_DOMAIN=your_auth_domain
     REACT_APP_PROJECT_ID=your_project_id
     ```
@@ -48,8 +56,9 @@ Follow these steps to set up and run TenderVault on your local machine.
 ## Built With
 
 - [React](https://reactjs.org/)
-- [Express.js](https://expressjs.com/)
 - [MongoDB](https://www.mongodb.com/)
+- [Express.js](https://expressjs.com/)
+- [Node.js](https://nodejs.org/)
 
 ## Authors
 
