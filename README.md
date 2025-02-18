@@ -37,7 +37,6 @@ Follow these steps to set up and run TenderVault on your local machine.
     Create a `.env` file in the root of your project and add necessary configurations:
     ```env
     REACT_APP_API_BASE_URL=your_api_base_url
-    REACT_APP_FIREBASE_API_KEY=your_firebase_api_key
     REACT_APP_AUTH_DOMAIN=your_auth_domain
     REACT_APP_PROJECT_ID=your_project_id
     ```
@@ -49,7 +48,6 @@ Follow these steps to set up and run TenderVault on your local machine.
 ## Built With
 
 - [React](https://reactjs.org/)
-- [Firebase](https://firebase.google.com/)
 - [Express.js](https://expressjs.com/)
 - [MongoDB](https://www.mongodb.com/)
 
