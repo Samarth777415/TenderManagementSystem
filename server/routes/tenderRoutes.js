@@ -3,8 +3,8 @@ const router = express.Router();
 const mongoose = require('mongoose'); // Import mongoose
 const Tender = require('../models/Tender');
 const User = require('../models/User'); // Import User model for reference
-const authenticateToken = require('../middleware/authMiddleware'); // Ensure you have middleware for token authentication
-
+// Ensure you have middleware for token authentication
+const authenticateToken = require('../middleware/authMiddleware');
 // Create a new tender
 router.post('/create',  async (req, res) => {
     const { title, description, deadline, status,userId } = req.body;
@@ -44,6 +44,18 @@ router.get('/all', async (req, res) => {
         console.error('Error retrieving tenders:', error.message);
         res.status(500).json({ error: 'Failed to retrieve tenders' });
     }
+});
+// Fetch all tenders created by the logged-in user
+router.get('/:userId/personal', async (req, res) => {
+  const { userId } = req.params;
+
+  try {
+      const tenders = await Tender.find({ userId }).sort({ createdAt: -1 }); // Sort by creation date
+      res.status(200).json(tenders);
+  } catch (error) {
+      console.error('Error fetching personal tenders:', error.message);
+      res.status(500).json({ message: 'Error fetching personal tenders', error });
+  }
 });
 
 // Update tender with details
@@ -93,5 +105,29 @@ router.get('/:id/details', async (req, res) => {
         res.status(500).json({ message: 'Error fetching tender details', error });
     }
 });
+router.patch('/:tenderId/status', async (req, res) => {
+    try {
+      const { tenderId } = req.params;
+      const tender = await Tender.findById(tenderId);
+  
+      if (!tender) {
+        return res.status(404).json({ message: 'Tender not found' });
+      }
+  
+      // Check if the tender is already submitted
+      if (tender.status === 'Submitted') {
+        return res.status(400).json({ message: 'Tender has already been submitted' });
+      }
+  
+      // Update the status to 'Submitted'
+      tender.status = 'Submitted';
+      await tender.save();
+  
+      return res.json({ message: 'Tender submitted successfully', tender });
+    } catch (error) {
+      return res.status(500).json({ message: 'Server error', error: error.message });
+    }
+  });
+  
 
 module.exports = router;

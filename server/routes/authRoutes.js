@@ -9,8 +9,20 @@ const router = express.Router();
 // Environment variable for JWT secret
 const JWT_SECRET = process.env.JWT_SECRET || 'your_jwt_secret_key';
 
-// Middleware to authenticate and get the user ID from the token
+router.post('/check-gst', async (req, res) => {
+  const { gstNumber } = req.body;
 
+  try {
+    const existingUser = await User.findOne({ gstNumber });
+    if (existingUser) {
+      return res.json({ isUnique: false });
+    }
+    return res.json({ isUnique: true });
+  } catch (error) {
+    console.error('Database error:', error);
+    return res.status(500).json({ message: 'Server error while checking GST uniqueness' });
+  }
+});
 
 // Register User
 router.post('/register', async (req, res) => {
@@ -67,27 +79,28 @@ router.post('/login', async (req, res) => {
   }
 });
 
-// Create a new tender
-
-
-const authenticateToken = (req, res, next) => {
-  const token = req.header('Authorization').replace('Bearer ', '');
-  if (!token) return res.status(401).json({ message: 'Access denied, no token provided.' });
-
+router.get('/users/:id', async (req, res) => {
   try {
-    const decoded = jwt.verify(token, JWT_SECRET);
-    req.user = decoded;
-    next();
-  } catch (err) {
-    res.status(400).json({ message: 'Invalid token.' });
-  }
-};
+    const { id } = req.params; // Extract the user ID from the request parameters
 
-// Get User Details
-// authRoutes.js
+    // Fetch the user from the database using the ID
+    const user = await User.findById(id);
+
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    // Return the user's details (you can select specific fields if needed)
+    res.status(200).json({ username: user.username, gstNumber: user.gstNumber });
+  } catch (error) {
+    console.error('Error fetching user details:', error);
+    res.status(500).json({ message: 'Failed to fetch user details' });
+  }
+});
+
 router.get('/me', async (req, res) => {
   try {
-    // Assuming you are passing the token in the headers
+   
     const token = req.headers.authorization.split(' ')[1]; // Bearer token
 
     if (!token) {
@@ -102,12 +115,10 @@ router.get('/me', async (req, res) => {
     }
 
     res.status(200).json({ _id: user._id });
-  } catch (error) {
+  } catch (error) { 
     console.error('Error fetching user details:', error);
     res.status(500).json({ message: 'Failed to fetch user details' });
   }
 });
-
-
 
 module.exports = router;

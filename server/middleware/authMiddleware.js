@@ -8,12 +8,14 @@ const authenticateToken = async (req, res, next) => {
   const token = authHeader && authHeader.split(' ')[1];
 
   if (!token) {
-    return res.status(401).json({ message: 'No token provided' });
+    return res.status(401).json({ message: 'Access denied. No token provided.' });
   }
+
 
   try {
     const decoded = jwt.verify(token, JWT_SECRET);
     const user = await User.findById(decoded._id);
+    const token = req.headers.authorization?.split(' ')[1];
 
     if (!user) {
       return res.status(404).json({ message: 'User not found' });
@@ -25,5 +27,7 @@ const authenticateToken = async (req, res, next) => {
     return res.status(403).json({ message: 'Invalid token' });
   }
 };
+// middleware/auth.js
+
 
 module.exports = authenticateToken;

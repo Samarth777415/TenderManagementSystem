@@ -5,7 +5,8 @@ const bodyParser = require('body-parser');
 require('dotenv').config();
 
 const tenderRoutes = require('./routes/tenderRoutes');
-const authRoutes = require('./routes/authRoutes');  // Ensure authRoutes is imported
+const authRoutes = require('./routes/authRoutes');
+const quotationRoutes = require('./routes/quatationRoutes'); // Ensure quotationRoutes is imported
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -24,7 +25,8 @@ mongoose.connect(process.env.MONGODB_URI, {
 
 // Routes
 app.use('/api/tenders', tenderRoutes);
-app.use('/api/auth', authRoutes);  // Register the auth routes correctly
+app.use('/api/auth', authRoutes);
+app.use('/api/quotations', quotationRoutes); // Register the quotation routes correctly
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
