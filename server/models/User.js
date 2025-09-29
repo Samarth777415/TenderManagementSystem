@@ -18,7 +18,8 @@ const userSchema = new mongoose.Schema({
   },
   gstNumber: {
     type: String,
-    required: true, // Ensure GST number is required
+    required: true,
+    unique:true // Ensure GST number is required
   },
 });
 
